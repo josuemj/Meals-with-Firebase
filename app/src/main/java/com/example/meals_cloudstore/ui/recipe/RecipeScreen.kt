@@ -1,4 +1,4 @@
-package com.example.meals_cloudstore.ui.mealsrecipe
+package com.example.meals_cloudstore.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -17,16 +17,16 @@ import com.example.meals_cloudstore.navigation.MealsModel
 import com.example.meals_cloudstore.ui.topbar.MealsAppTopBar
 
 @Composable
-fun MealsRecipe(
+fun RecipeScreen(
     dataBase:DataBase,
-    navController: NavController,
     meal:String,
+    recipeSelected:String
 ){
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
-            topBar = { MealsAppTopBar(screenTittle = "Meals for$meal") }
+            topBar = { MealsAppTopBar(screenTittle = "Recipe for "+recipeSelected) }
         ) {innerPadding->
             Column(
                 modifier = Modifier.padding(innerPadding)
@@ -36,7 +36,10 @@ fun MealsRecipe(
 
                 LaunchedEffect(key1 = true) {
                     try {
-                        mealsList.addAll(dataBase.getMealCategories(meal))
+                        print("At Recipe Screen (third screen")
+                        println("meal selected: $meal")
+                        println("recipe selected: $recipeSelected")
+                        mealsList.addAll(dataBase.getMealRecipe(meal,recipeSelected))
                     } catch (e: Exception) {
                         println("Error retrieving meals: ${e.message}")
                     } finally {
@@ -50,17 +53,12 @@ fun MealsRecipe(
                     LazyColumn(
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        items(mealsList) { mealRecipe ->
-                            println("-----------------------------------------------")
-                            println("meal selected at second screen: $meal")
-                            println("recipe selected at second screen: $mealRecipe")
+                        items(mealsList) { meal ->
                             Text(
                                 modifier = Modifier.clickable {
-                                    navController.navigate(MealsModel.RecipeScreen.withArgs(
-                                        meal,mealRecipe
-                                    ))
+
                                 },
-                                text = mealRecipe
+                                text = meal
                             )
                         }
                     }

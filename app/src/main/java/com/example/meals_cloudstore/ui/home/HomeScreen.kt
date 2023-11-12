@@ -62,6 +62,7 @@ fun HomeScreen(
                                     .withArgs(
                                         meal
                             ))
+                            println("meal category selected: (first screen) -> $meal")
                         },
                         text = meal
                     )

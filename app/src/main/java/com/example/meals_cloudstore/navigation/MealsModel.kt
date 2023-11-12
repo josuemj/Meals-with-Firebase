@@ -5,7 +5,7 @@ sealed class MealsModel(
 ){
     object HomeScreen: MealsModel("home_screen")
     object MealRecipes: MealsModel("meals")
-    object Recipe:MealsModel("meal_recipe")
+    object RecipeScreen:MealsModel("meal_recipe")
 
     fun withArgs(vararg args: String):String{
         return buildString {
