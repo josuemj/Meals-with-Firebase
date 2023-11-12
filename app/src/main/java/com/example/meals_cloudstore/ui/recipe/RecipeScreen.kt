@@ -22,6 +22,8 @@ fun RecipeScreen(
     meal:String,
     recipeSelected:String
 ){
+    val recipeText = remember { mutableStateOf<String?>(null) }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -34,34 +36,19 @@ fun RecipeScreen(
                 val mealsList = remember { mutableStateListOf<String>() }
                 val isLoading = remember { mutableStateOf(true) }
 
-                LaunchedEffect(key1 = true) {
-                    try {
-                        print("At Recipe Screen (third screen")
-                        println("meal selected: $meal")
-                        println("recipe selected: $recipeSelected")
-                        mealsList.addAll(dataBase.getMealRecipe(meal,recipeSelected))
-                    } catch (e: Exception) {
-                        println("Error retrieving meals: ${e.message}")
-                    } finally {
-                        isLoading.value = false
-                    }
+                // The key1 parameter should be your meal and recipeSelected so it re-triggers when they change
+                LaunchedEffect(key1 = meal, key2 = recipeSelected) {
+                    isLoading.value = true
+                    recipeText.value = dataBase.getRecipe(meal, recipeSelected) // Fetch the recipe text
+                    isLoading.value = false
                 }
 
                 if (isLoading.value) {
                     CircularProgressIndicator()
                 } else {
-                    LazyColumn(
-                        modifier = Modifier.padding(innerPadding)
-                    ) {
-                        items(mealsList) { meal ->
-                            Text(
-                                modifier = Modifier.clickable {
-
-                                },
-                                text = meal
-                            )
-                        }
-                    }
+                    recipeText.value?.let { recipe ->
+                        Text(text = recipe) // Display the recipe text
+                    } ?: Text(text = "Recipe not found.")
                 }
             }
         }

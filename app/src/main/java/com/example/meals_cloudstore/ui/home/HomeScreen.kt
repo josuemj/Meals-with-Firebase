@@ -53,19 +53,7 @@ fun HomeScreen(
                 modifier = Modifier.padding(innerPadding)
             ) {
                 items(mealsList) { meal ->
-                    Text(
-                        modifier = Modifier.clickable {
-                            navController.
-                            navigate(
-                                MealsModel
-                                .MealRecipes
-                                    .withArgs(
-                                        meal
-                            ))
-                            println("meal category selected: (first screen) -> $meal")
-                        },
-                        text = meal
-                    )
+                    MealCard(navController = navController, meal = meal)
                 }
             }
         }

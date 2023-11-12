@@ -26,7 +26,7 @@ fun MealsRecipe(
         modifier = Modifier.fillMaxSize()
     ) {
         Scaffold(
-            topBar = { MealsAppTopBar(screenTittle = "Meals for$meal") }
+            topBar = { MealsAppTopBar(screenTittle = "Meals for $meal") }
         ) {innerPadding->
             Column(
                 modifier = Modifier.padding(innerPadding)
@@ -51,17 +51,7 @@ fun MealsRecipe(
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         items(mealsList) { mealRecipe ->
-                            println("-----------------------------------------------")
-                            println("meal selected at second screen: $meal")
-                            println("recipe selected at second screen: $mealRecipe")
-                            Text(
-                                modifier = Modifier.clickable {
-                                    navController.navigate(MealsModel.RecipeScreen.withArgs(
-                                        meal,mealRecipe
-                                    ))
-                                },
-                                text = mealRecipe
-                            )
+                            MealRecipeCard(navController,meal, mealRecipe)
                         }
                     }
                 }
